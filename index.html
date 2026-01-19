@@ -1,190 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Un pequeño juego</title>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.container {
-  background: white;
-  padding: 30px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.step { display: none; }
-.step.active { display: block; }
-
-button {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 8px;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.phrase {
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.phrase span {
-  color: #aaa;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invitación Sofi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #f0f0f0;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
+    .question {
+      margin-top: 1.5rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px #aaa;
+    }
+    .options {
+      margin-top: 0.5rem;
+    }
+    .options button {
+      margin: 0.3rem 0;
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #ddd;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .options button:hover {
+      background-color: #bbb;
+    }
+    #phrase {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 2em;
+      text-align: center;
+      color: #004080;
+      letter-spacing: 0.1em;
+    }
+    #final-buttons {
+      margin-top: 2rem;
+      text-align: center;
+      display: none;
+    }
+    #final-buttons a {
+      text-decoration: none;
+      color: white;
+      background-color: #007bff;
+      padding: 0.8rem 1.5rem;
+      margin: 0 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+    #final-buttons a:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
+  <h1>Mini Juego para Sofi</h1>
 
-<h2>Mini juego</h2>
+  <div id="question-container" class="question">
+    <div id="question-text"></div>
+    <div id="options" class="options"></div>
+  </div>
 
-<p class="phrase">
-  <span id="p1">____</span>
-  <span id="p2">________</span>
-  <span id="p3">__</span>
-  <span id="p4">______</span>
-  <span id="p5">__</span>
-  <span id="p6">________</span>
-  <span id="p7">________</span>?
-</p>
+  <div id="phrase">Te gustaria ir a comer al ______ conmigo?</div>
 
-<!-- 1 -->
-<div class="step active" id="s1">
-  <p>3 8 1 8 5 8 2</p>
-  <p>¿Cuántas veces aparece el número que más se repite?</p>
-  <button onclick="wrong()">2</button>
-  <button onclick="reveal(1)">3</button>
-  <button onclick="wrong()">1</button>
-  <button onclick="wrong()">4</button>
-</div>
+  <div id="final-buttons">
+    <a id="accept-btn" href="#" target="_blank">Aceptar</a>
+    <a id="reject-btn" href="#" target="_blank">Rechazar</a>
+  </div>
 
-<!-- 2 -->
-<div class="step" id="s2">
-  <p>¿Qué neurotransmisor está más relacionado con el sistema de recompensa?</p>
-  <button onclick="wrong()">Serotonina</button>
-  <button onclick="wrong()">GABA</button>
-  <button onclick="reveal(2)">Dopamina</button>
-  <button onclick="wrong()">Glutamato</button>
-</div>
+  <script>
+    const questions = [
+      {
+        text: "¿Cuál es la unidad básica del sistema nervioso?",
+        options: [
+          { text: "Neurona", correct: true },
+          { text: "Mitocondria", correct: false },
+          { text: "Glóbulo rojo", correct: false },
+          { text: "Célula epitelial", correct: false }
+        ],
+        phrasePart: "Te "
+      },
+      {
+        text: "Si sumas 12 + 8, ¿cuál es el resultado?",
+        options: [
+          { text: "20", correct: true },
+          { text: "18", correct: false },
+          { text: "22", correct: false },
+          { text: "19", correct: false }
+        ],
+        phrasePart: "gustaria "
+      },
+      {
+        text: "¿Cuál es el neurotransmisor principal en la adicción?",
+        options: [
+          { text: "Dopamina", correct: true },
+          { text: "Serotonina", correct: false },
+          { text: "Adrenalina", correct: false },
+          { text: "GABA", correct: false }
+        ],
+        phrasePart: "ir a "
+      },
+      {
+        text: "¿Cuál es el órgano responsable del equilibrio en el cuerpo humano?",
+        options: [
+          { text: "Cerebelo", correct: true },
+          { text: "Hipotálamo", correct: false },
+          { text: "Tálamo", correct: false },
+          { text: "Amígdala", correct: false }
+        ],
+        phrasePart: "comer al "
+      },
+      {
+        text: "¿Cuántos huesos tiene el cuerpo humano adulto?",
+        options: [
+          { text: "206", correct: true },
+          { text: "208", correct: false },
+          { text: "200", correct: false },
+          { text: "210", correct: false }
+        ],
+        phrasePart: "_______ "
+      },
+      {
+        text: "¿Cuál es el nombre del proceso mediante el cual las células nerviosas transmiten señales?",
+        options: [
+          { text: "Sinapsis", correct: true },
+          { text: "Mitosis", correct: false },
+          { text: "Fotosíntesis", correct: false },
+          { text: "Osmosis", correct: false }
+        ],
+        phrasePart: "conmigo?"
+      },
+      {
+        text: "¿A dónde te quisiera invitar?",
+        options: [
+          { text: "McDonalds", correct: false },
+          { text: "Toks", correct: true },
+          { text: "Muncher House", correct: false },
+          { text: "Apple Bees", correct: false }
+        ],
+        phrasePart: ""
+      }
+    ];
 
-<!-- 3 -->
-<div class="step" id="s3">
-  <p>2 4 8 16 ?</p>
-  <p>¿Qué número sigue?</p>
-  <button onclick="wrong()">24</button>
-  <button onclick="wrong()">18</button>
-  <button onclick="reveal(3)">32</button>
-  <button onclick="wrong()">30</button>
-</div>
+    const phraseElement = document.getElementById("phrase");
+    const questionText = document.getElementById("question-text");
+    const optionsDiv = document.getElementById("options");
+    const finalButtons = document.getElementById("final-buttons");
+    const acceptBtn = document.getElementById("accept-btn");
+    const rejectBtn = document.getElementById("reject-btn");
 
-<!-- 4 -->
-<div class="step" id="s4">
-  <p>La capacidad del cerebro de cambiar con la experiencia se llama:</p>
-  <button onclick="wrong()">Resiliencia</button>
-  <button onclick="reveal(4)">Plasticidad neuronal</button>
-  <button onclick="wrong()">Homeostasis</button>
-  <button onclick="wrong()">Habituación</button>
-</div>
+    let currentQuestionIndex = 0;
+    let phrase = "";
 
-<!-- 5 -->
-<div class="step" id="s5">
-  <p>1 1 2 3 5 ?</p>
-  <p>¿Qué número continúa?</p>
-  <button onclick="wrong()">6</button>
-  <button onclick="reveal(5)">8</button>
-  <button onclick="wrong()">7</button>
-  <button onclick="wrong()">9</button>
-</div>
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
-<!-- 6 -->
-<div class="step" id="s6">
-  <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
-  <button onclick="wrong()">Hipocampo</button>
-  <button onclick="fillConmigo()">Corteza prefrontal</button>
-  <button onclick="wrong()">Amígdala</button>
-  <button onclick="wrong()">Cerebelo</button>
-</div>
+    function showQuestion() {
+      const currentQuestion = questions[currentQuestionIndex];
+      questionText.textContent = currentQuestion.text;
+      optionsDiv.innerHTML = "";
 
-<!-- 7 -->
-<div class="step" id="s7">
-  <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
-  <button onclick="wrong()">Apple Bees</button>
-  <button onclick="wrong()">McDonalds</button>
-  <button onclick="place()">Toks</button>
-  <button onclick="wrong()">Muncher House</button>
-</div>
+      // Shuffle options so correct answer isn't always first
+      shuffleArray(currentQuestion.options);
 
-<div class="step" id="final">
-  <p>🙂</p>
-</div>
+      currentQuestion.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option.text;
+        btn.addEventListener("click", () => {
+          if (option.correct) {
+            phrase += currentQuestion.phrasePart;
+            phraseElement.textContent = phrase + "______ conmigo?";
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length - 1) {
+              showQuestion();
+            } else if (currentQuestionIndex === questions.length - 1) {
+              // Show last question without adding phrasePart yet
+              showQuestion();
+            } else {
+              // Finished all questions except last
+              showFinalButtons();
+            }
+          } else {
+            alert("Respuesta incorrecta, intenta de nuevo.");
+          }
+        });
+        optionsDiv.appendChild(btn);
+      });
+    }
 
-<div class="step" id="buttons">
-  <button onclick="yes()">Sí 🙂</button>
-  <button onclick="no()">Prefiero dejarlo aquí 💛</button>
-</div>
+    function showFinalButtons() {
+      questionText.textContent = "¿Quieres ir a comer conmigo?";
+      optionsDiv.style.display = "none";
+      finalButtons.style.display = "block";
 
-</div>
+      // Cambia los enlaces para WhatsApp con mensajes predefinidos
+      const phoneNumber = "5218119179029"; // Cambia por tu número
+      acceptBtn.href = `https://wa.me/${phoneNumber}?text=Hola,%20acepto%20la%20invitaci%C3%B3n`;
+      rejectBtn.href = `https://wa.me/${phoneNumber}?text=Hola,%20por%20el%20momento%20no%20puedo`;
 
-<script>
-const words = ["Te", "gustaría", "ir", "a", "comer"];
+      phraseElement.textContent = "Te gustaria ir a comer al Toks conmigo?";
+    }
 
-function reveal(n) {
-  document.getElementById("p"+n).innerText = words[n-1];
-  document.getElementById("p"+n).style.color = "#000";
-  next(n);
-}
-
-function fillConmigo() {
-  document.getElementById("p6").innerText = "al ______";
-  document.getElementById("p7").innerText = "conmigo";
-  document.getElementById("p6").style.color = "#000";
-  document.getElementById("p7").style.color = "#000";
-  next(6);
-}
-
-function place() {
-  document.getElementById("p6").innerText = "al Toks";
-  next(7);
-}
-
-function wrong() {
-  alert("Intenta otra vez 🙂");
-}
-
-function next(n) {
-  document.getElementById("s"+n).classList.remove("active");
-  if (n < 7) {
-    document.getElementById("s"+(n+1)).classList.add("active");
-  } else {
-    document.getElementById("final").classList.add("active");
-    document.getElementById("buttons").classList.add("active");
-  }
-}
-
-function yes() {
-  window.location.href =
-    "mailto:andy117@live.com?subject=Respuesta&body=Sí quiero";
-}
-
-function no() {
-  window.location.href =
-    "mailto:andy117@live.com?subject=Respuesta&body=Por el momento no";
-  window.close();
-}
-</script>
-
+    // Inicia mostrando la primera pregunta
+    showQuestion();
+  </script>
 </body>
 </html>
+
+
