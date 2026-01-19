@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Un pequeño juego</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.step { display: none; }
+.step.active { display: block; }
+
+button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.phrase {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.phrase span {
+  color: #aaa;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Mini juego</h2>
+
+<p class="phrase">
+  <span id="p1">____</span>
+  <span id="p2">________</span>
+  <span id="p3">__</span>
+  <span id="p4">______</span>
+  <span id="p5">__</span>
+  <span id="p6">________</span>
+  <span id="p7">________</span>?
+</p>
+
+<!-- 1 -->
+<div class="step active" id="s1">
+  <p>3 8 1 8 5 8 2</p>
+  <p>¿Cuántas veces aparece el número que más se repite?</p>
+  <button onclick="wrong()">2</button>
+  <button onclick="reveal(1)">3</button>
+  <button onclick="wrong()">1</button>
+  <button onclick="wrong()">4</button>
+</div>
+
+<!-- 2 -->
+<div class="step" id="s2">
+  <p>¿Qué neurotransmisor está más relacionado con el sistema de recompensa?</p>
+  <button onclick="wrong()">Serotonina</button>
+  <button onclick="wrong()">GABA</button>
+  <button onclick="reveal(2)">Dopamina</button>
+  <button onclick="wrong()">Glutamato</button>
+</div>
+
+<!-- 3 -->
+<div class="step" id="s3">
+  <p>2 4 8 16 ?</p>
+  <p>¿Qué número sigue?</p>
+  <button onclick="wrong()">24</button>
+  <button onclick="wrong()">18</button>
+  <button onclick="reveal(3)">32</button>
+  <button onclick="wrong()">30</button>
+</div>
+
+<!-- 4 -->
+<div class="step" id="s4">
+  <p>La capacidad del cerebro de cambiar con la experiencia se llama:</p>
+  <button onclick="wrong()">Resiliencia</button>
+  <button onclick="reveal(4)">Plasticidad neuronal</button>
+  <button onclick="wrong()">Homeostasis</button>
+  <button onclick="wrong()">Habituación</button>
+</div>
+
+<!-- 5 -->
+<div class="step" id="s5">
+  <p>1 1 2 3 5 ?</p>
+  <p>¿Qué número continúa?</p>
+  <button onclick="wrong()">6</button>
+  <button onclick="reveal(5)">8</button>
+  <button onclick="wrong()">7</button>
+  <button onclick="wrong()">9</button>
+</div>
+
+<!-- 6 -->
+<div class="step" id="s6">
+  <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
+  <button onclick="wrong()">Hipocampo</button>
+  <button onclick="fillConmigo()">Corteza prefrontal</button>
+  <button onclick="wrong()">Amígdala</button>
+  <button onclick="wrong()">Cerebelo</button>
+</div>
+
+<!-- 7 -->
+<div class="step" id="s7">
+  <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
+  <button onclick="wrong()">Apple Bees</button>
+  <button onclick="wrong()">McDonalds</button>
+  <button onclick="place()">Toks</button>
+  <button onclick="wrong()">Muncher House</button>
+</div>
+
+<div class="step" id="final">
+  <p>🙂</p>
+</div>
+
+<div class="step" id="buttons">
+  <button onclick="yes()">Sí 🙂</button>
+  <button onclick="no()">Prefiero dejarlo aquí 💛</button>
+</div>
+
+</div>
+
+<script>
+const words = ["Te", "gustaría", "ir", "a", "comer"];
+
+function reveal(n) {
+  document.getElementById("p"+n).innerText = words[n-1];
+  document.getElementById("p"+n).style.color = "#000";
+  next(n);
+}
+
+function fillConmigo() {
+  document.getElementById("p6").innerText = "al ______";
+  document.getElementById("p7").innerText = "conmigo";
+  document.getElementById("p6").style.color = "#000";
+  document.getElementById("p7").style.color = "#000";
+  next(6);
+}
+
+function place() {
+  document.getElementById("p6").innerText = "al Toks";
+  next(7);
+}
+
+function wrong() {
+  alert("Intenta otra vez 🙂");
+}
+
+function next(n) {
+  document.getElementById("s"+n).classList.remove("active");
+  if (n < 7) {
+    document.getElementById("s"+(n+1)).classList.add("active");
+  } else {
+    document.getElementById("final").classList.add("active");
+    document.getElementById("buttons").classList.add("active");
+  }
+}
+
+function yes() {
+  window.location.href =
+    "mailto:andy117@live.com?subject=Respuesta&body=Sí quiero";
+}
+
+function no() {
+  window.location.href =
+    "mailto:andy117@live.com?subject=Respuesta&body=Por el momento no";
+  window.close();
+}
+</script>
+
+</body>
+</html>
