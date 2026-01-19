@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Invitación Sofi</title>
+  <title>Mini Juego</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -72,7 +72,7 @@
   </style>
 </head>
 <body>
-  <h1>Mini Juego para Sofi</h1>
+  <h1>Mini Juego</h1>
 
   <div id="question-container" class="question">
     <div id="question-text"></div>
@@ -182,10 +182,9 @@
       questionText.textContent = currentQuestion.text;
       optionsDiv.innerHTML = "";
 
-      // Shuffle options so correct answer isn't always first
       shuffleArray(currentQuestion.options);
 
-      currentQuestion.options.forEach((option, index) => {
+      currentQuestion.options.forEach((option) => {
         const btn = document.createElement("button");
         btn.textContent = option.text;
         btn.addEventListener("click", () => {
@@ -196,10 +195,8 @@
             if (currentQuestionIndex < questions.length - 1) {
               showQuestion();
             } else if (currentQuestionIndex === questions.length - 1) {
-              // Show last question without adding phrasePart yet
               showQuestion();
             } else {
-              // Finished all questions except last
               showFinalButtons();
             }
           } else {
@@ -215,18 +212,18 @@
       optionsDiv.style.display = "none";
       finalButtons.style.display = "block";
 
-      // Cambia los enlaces para WhatsApp con mensajes predefinidos
-      const phoneNumber = "5218119179029"; // Cambia por tu número
+      const phoneNumber = "5218119179029"; // Cambia por tu número con código país y sin espacios
       acceptBtn.href = `https://wa.me/${phoneNumber}?text=Hola,%20acepto%20la%20invitaci%C3%B3n`;
       rejectBtn.href = `https://wa.me/${phoneNumber}?text=Hola,%20por%20el%20momento%20no%20puedo`;
 
       phraseElement.textContent = "Te gustaria ir a comer al Toks conmigo?";
     }
 
-    // Inicia mostrando la primera pregunta
     showQuestion();
   </script>
 </body>
 </html>
+
+
 
 
