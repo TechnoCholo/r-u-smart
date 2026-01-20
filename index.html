@@ -52,7 +52,7 @@ button {
 <h2>Mini juego</h2>
 
 <p class="phrase">
-  <span id="p1">Te</span>
+  <span id="p1">__</span>
   <span id="p2">_______</span>
   <span id="p3">__</span>
   <span id="p4">_</span>
@@ -68,7 +68,7 @@ button {
   <p>3 8 1 8 5 8 2</p>
   <p>¿Cuántas veces aparece el número que más se repite?</p>
   <button onclick="wrong()">2</button>
-  <button onclick="reveal1()">3</button>
+  <button onclick="revealTe()">3</button>
   <button onclick="wrong()">1</button>
   <button onclick="wrong()">4</button>
 </div>
@@ -79,7 +79,7 @@ button {
   <button onclick="wrong()">Serotonina</button>
   <button onclick="wrong()">GABA</button>
   <button onclick="wrong()">Glutamato</button>
-  <button onclick="reveal2()">Dopamina</button>
+  <button onclick="revealGustaria()">Dopamina</button>
 </div>
 
 <!-- 3 -->
@@ -88,14 +88,14 @@ button {
   <p>¿Qué número sigue?</p>
   <button onclick="wrong()">24</button>
   <button onclick="wrong()">18</button>
-  <button onclick="reveal3()">32</button>
+  <button onclick="revealIr()">32</button>
   <button onclick="wrong()">30</button>
 </div>
 
 <!-- 4 -->
 <div class="step" id="s4">
   <p>En la mayoría de estudios revisados sobre adicciones comportamentales y TEA...</p>
-  <button onclick="reveal4()">Una correlación positiva mayoritaria.</button>
+  <button onclick="revealA()">Una correlación positiva mayoritaria.</button>
   <button onclick="wrong()">Ninguna relación.</button>
   <button onclick="wrong()">Correlación negativa.</button>
   <button onclick="wrong()">Relación inversa.</button>
@@ -105,7 +105,7 @@ button {
 <div class="step" id="s5">
   <p>1 1 2 3 5 ?</p>
   <button onclick="wrong()">6</button>
-  <button onclick="reveal5()">8</button>
+  <button onclick="revealComer()">8</button>
   <button onclick="wrong()">7</button>
   <button onclick="wrong()">9</button>
 </div>
@@ -114,15 +114,24 @@ button {
 <div class="step" id="s6">
   <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
   <button onclick="wrong()">Hipocampo</button>
-  <button onclick="reveal6()">Corteza prefrontal</button>
+  <button onclick="revealConmigo()">Corteza prefrontal</button>
   <button onclick="wrong()">Amígdala</button>
   <button onclick="wrong()">Cerebelo</button>
 </div>
 
-<!-- 7 -->
+<!-- 7 (placeholder) -->
 <div class="step" id="s7">
   <p><strong>¿Pregunta pendeja?</strong></p>
-  <button onclick="reveal7()">Eres una verga</button>
+  <button onclick="revealAl()">Eres una verga</button>
+  <button onclick="wrong()">Apple Bees</button>
+  <button onclick="wrong()">McDonalds</button>
+  <button onclick="wrong()">Muncher House</button>
+</div>
+
+<!-- 8 FINAL -->
+<div class="step" id="s8">
+  <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
+  <button onclick="revealToks()">Toks</button>
   <button onclick="wrong()">Apple Bees</button>
   <button onclick="wrong()">McDonalds</button>
   <button onclick="wrong()">Muncher House</button>
@@ -140,40 +149,44 @@ button {
 </div>
 
 <script>
-function reveal1() {
-  document.getElementById("p2").innerText = "gustaría";
+function revealTe() {
+  document.getElementById("p1").innerText = "Te";
   next(1);
 }
 
-function reveal2() {
-  document.getElementById("p3").innerText = "ir";
+function revealGustaria() {
+  document.getElementById("p2").innerText = "gustaría";
   next(2);
 }
 
-function reveal3() {
-  document.getElementById("p4").innerText = "a";
+function revealIr() {
+  document.getElementById("p3").innerText = "ir";
   next(3);
 }
 
-function reveal4() {
-  document.getElementById("p5").innerText = "comer";
-  document.getElementById("p6").innerText = "conmigo";
+function revealA() {
+  document.getElementById("p4").innerText = "a";
   next(4);
 }
 
-function reveal5() {
-  document.getElementById("p7").innerText = "al";
-  document.getElementById("p8").innerText = "______";
+function revealComer() {
+  document.getElementById("p5").innerText = "comer";
   next(5);
 }
 
-function reveal6() {
-  document.getElementById("p8").innerText = "Toks";
+function revealConmigo() {
+  document.getElementById("p6").innerText = "conmigo";
   next(6);
 }
 
-function reveal7() {
+function revealAl() {
+  document.getElementById("p7").innerText = "al";
   next(7);
+}
+
+function revealToks() {
+  document.getElementById("p8").innerText = "Toks";
+  next(8);
 }
 
 function wrong() {
@@ -182,7 +195,7 @@ function wrong() {
 
 function next(n) {
   document.getElementById("s"+n).classList.remove("active");
-  if (n < 7) {
+  if (n < 8) {
     document.getElementById("s"+(n+1)).classList.add("active");
   } else {
     document.getElementById("final").classList.add("active");
