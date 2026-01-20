@@ -58,7 +58,9 @@ button {
   <span id="p4">______</span>
   <span id="p5">__</span>
   <span id="p6">________</span>
-  <span id="p7">________</span>?
+  <span id="p7">________</span>
+  <span id="p8">________</span>?
+  
 </p>
 
 <!-- 1 -->
@@ -120,6 +122,15 @@ button {
 
 <!-- 7 -->
 <div class="step" id="s7">
+  <p><strong>¿Pregunta pendeja?</strong></p>
+  <button onclick="place()">Eres una verga</button>
+  <button onclick="wrong()">Apple Bees</button>
+  <button onclick="wrong()">McDonalds</button>
+  <button onclick="wrong()">Muncher House</button>
+</div>
+
+  <!-- 8 -->
+<div class="step" id="s8">
   <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
   <button onclick="place()">Toks</button>
   <button onclick="wrong()">Apple Bees</button>
@@ -139,7 +150,7 @@ button {
 </div>
 
 <script>
-const words = ["Te", "gustaría", "ir", "a", "comer"];
+const words = ["Te", "gustaría", "ir", "a", "comer","conmigo"];
 
 function reveal(n) {
   document.getElementById("p"+n).innerText = words[n-1];
@@ -149,7 +160,6 @@ function reveal(n) {
 
 function fillConmigo() {
   document.getElementById("p6").innerText = "al ______";
-  document.getElementById("p7").innerText = "conmigo";
   document.getElementById("p6").style.color = "#000";
   document.getElementById("p7").style.color = "#000";
   next(6);
@@ -190,6 +200,7 @@ function no() {
 
 </body>
 </html>
+
 
 
 
