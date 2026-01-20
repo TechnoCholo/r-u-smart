@@ -1,146 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Pregunta</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<title>Un pequeño juego</title>
 
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-    .phrase {
-      font-size: 24px;
-      margin-bottom: 30px;
-      min-height: 40px;
-    }
+.container {
+  background: white;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
 
-    .phrase span {
-      color: #ccc;
-      margin-right: 4px;
-    }
+.step { display: none; }
+.step.active { display: block; }
 
-    .step {
-      display: none;
-    }
+button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
 
-    .step.active {
-      display: block;
-    }
+.phrase {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .yes {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .no {
-      background-color: #f44336;
-      color: white;
-    }
-  </style>
+.phrase span {
+  color: #aaa;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <div class="phrase">
-      <span id="p1">_____</span>
-      <span id="p2">_____</span>
-      <span id="p3">_____</span>
-      <span id="p4">_____</span>
-      <span id="p5">_____</span>
-      <span id="p6">_____</span>
-      <span id="p7">_____</span>
-    </div>
+<h2>Mini juego</h2>
 
-    <div id="s1" class="step active">
-      <button onclick="reveal(1)">Continuar</button>
-    </div>
+<p class="phrase">
+  <span id="p1">Te</span>
+  <span id="p2">_______</span>
+  <span id="p3">__</span>
+  <span id="p4">_</span>
+  <span id="p5">_____</span>
+  <span id="p6">__</span>
+  <span id="p7">______</span>
+  <span id="p8">________</span>
+  <span id="p9">________</span>?
+</p>
 
-    <div id="s2" class="step">
-      <button onclick="reveal(2)">Continuar</button>
-    </div>
+<!-- 1 -->
+<div class="step active" id="s1">
+  <p>3 8 1 8 5 8 2</p>
+  <p>¿Cuántas veces aparece el número que más se repite?</p>
+  <button onclick="wrong()">2</button>
+  <button onclick="reveal1()">3</button>
+  <button onclick="wrong()">1</button>
+  <button onclick="wrong()">4</button>
+</div>
 
-    <div id="s3" class="step">
-      <button onclick="reveal(3)">Continuar</button>
-    </div>
+<!-- 2 -->
+<div class="step" id="s2">
+  <p>¿Qué neurotransmisor está más relacionado con el sistema de recompensa?</p>
+  <button onclick="wrong()">Serotonina</button>
+  <button onclick="wrong()">GABA</button>
+  <button onclick="wrong()">Glutamato</button>
+  <button onclick="reveal2()">Dopamina</button>
+</div>
 
-    <div id="s4" class="step">
-      <button onclick="reveal(4)">Continuar</button>
-    </div>
+<!-- 3 -->
+<div class="step" id="s3">
+  <p>2 4 8 16 ?</p>
+  <p>¿Qué número sigue?</p>
+  <button onclick="wrong()">24</button>
+  <button onclick="wrong()">18</button>
+  <button onclick="reveal3()">32</button>
+  <button onclick="wrong()">30</button>
+</div>
 
-    <div id="s5" class="step">
-      <button onclick="reveal(5)">Continuar</button>
-    </div>
+<!-- 4 -->
+<div class="step" id="s4">
+  <p>En la mayoría de estudios revisados sobre adicciones comportamentales y TEA...</p>
+  <button onclick="reveal4()">Una correlación positiva mayoritaria.</button>
+  <button onclick="wrong()">Ninguna relación.</button>
+  <button onclick="wrong()">Correlación negativa.</button>
+  <button onclick="wrong()">Relación inversa.</button>
+</div>
 
-    <div id="s6" class="step">
-      <button onclick="reveal(6)">Continuar</button>
-    </div>
+<!-- 5 -->
+<div class="step" id="s5">
+  <p>1 1 2 3 5 ?</p>
+  <button onclick="wrong()">6</button>
+  <button onclick="reveal5()">8</button>
+  <button onclick="wrong()">7</button>
+  <button onclick="wrong()">9</button>
+</div>
 
-    <div id="s7" class="step">
-      <button onclick="reveal(7)">Continuar</button>
-    </div>
+<!-- 6 -->
+<div class="step" id="s6">
+  <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
+  <button onclick="wrong()">Hipocampo</button>
+  <button onclick="reveal6()">Corteza prefrontal</button>
+  <button onclick="wrong()">Amígdala</button>
+  <button onclick="wrong()">Cerebelo</button>
+</div>
 
-    <div id="final" class="step">
-      <p>💭</p>
-    </div>
+<!-- 7 -->
+<div class="step" id="s7">
+  <p><strong>¿Pregunta pendeja?</strong></p>
+  <button onclick="reveal7()">Eres una verga</button>
+  <button onclick="wrong()">Apple Bees</button>
+  <button onclick="wrong()">McDonalds</button>
+  <button onclick="wrong()">Muncher House</button>
+</div>
 
-    <div id="buttons" class="step">
-      <button class="yes" onclick="yes()">Sí</button>
-      <button class="no" onclick="no()">No</button>
-    </div>
+<div class="step" id="final">
+  <p>🙂</p>
+</div>
 
-  </div>
+<div class="step" id="buttons">
+  <button onclick="yes()">Sí 🙂</button>
+  <button onclick="no()">Prefiero dejarlo aquí 💛</button>
+</div>
+
+</div>
 
 <script>
-const stepsText = [
-  ["Te"],
-  ["Te", "gustaría"],
-  ["Te", "gustaría", "ir"],
-  ["Te", "gustaría", "ir", "a"],
-  ["Te", "gustaría", "ir", "a", "comer", "conmigo"],
-  ["Te", "gustaría", "ir", "a", "comer", "conmigo", "al"],
-  ["Te", "gustaría", "ir", "a", "comer", "conmigo", "al", "Toks"]
-];
-
-function reveal(n) {
-  updatePhrase(stepsText[n - 1]);
-  next(n);
+function reveal1() {
+  document.getElementById("p2").innerText = "gustaría";
+  next(1);
 }
 
-function updatePhrase(words) {
-  const ids = ["p1","p2","p3","p4","p5","p6","p7"];
-  ids.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (words[i]) {
-      el.innerText = words[i];
-      el.style.color = "#000";
-    }
-  });
+function reveal2() {
+  document.getElementById("p3").innerText = "ir";
+  next(2);
+}
+
+function reveal3() {
+  document.getElementById("p4").innerText = "a";
+  next(3);
+}
+
+function reveal4() {
+  document.getElementById("p5").innerText = "comer";
+  document.getElementById("p6").innerText = "conmigo";
+  next(4);
+}
+
+function reveal5() {
+  document.getElementById("p7").innerText = "al";
+  document.getElementById("p8").innerText = "______";
+  next(5);
+}
+
+function reveal6() {
+  document.getElementById("p8").innerText = "Toks";
+  next(6);
+}
+
+function reveal7() {
+  next(7);
+}
+
+function wrong() {
+  alert("Intenta otra vez 🙂");
 }
 
 function next(n) {
@@ -154,17 +191,14 @@ function next(n) {
 }
 
 function yes() {
-  const phoneNumber = "5218119179029";
-  const message = encodeURIComponent("Sí quiero");
-  window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+  window.open("https://wa.me/5218119179029?text=Sí%20quiero", "_blank");
 }
 
 function no() {
-  const phoneNumber = "5218119179029";
-  const message = encodeURIComponent("Por el momento no");
-  window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+  window.open("https://wa.me/5218119179029?text=Por%20el%20momento%20no", "_blank");
 }
 </script>
 
 </body>
 </html>
+
