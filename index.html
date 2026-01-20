@@ -1,182 +1,151 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Un pequeño juego</title>
+  <meta charset="UTF-8">
+  <title>Pregunta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-.container {
-  background: white;
-  padding: 30px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
+    .phrase {
+      font-size: 24px;
+      margin-bottom: 30px;
+      min-height: 40px;
+    }
 
-.step { display: none; }
-.step.active { display: block; }
+    .phrase span {
+      color: #ccc;
+      margin-right: 4px;
+    }
 
-button {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 8px;
-  cursor: pointer;
-  font-size: 15px;
-}
+    .step {
+      display: none;
+    }
 
-.phrase {
-  margin-bottom: 20px;
-  font-weight: bold;
-}
+    .step.active {
+      display: block;
+    }
 
-.phrase span {
-  color: #aaa;
-}
-</style>
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .yes {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .no {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
+  <div class="container">
 
-<h2>Mini juego</h2>
+    <div class="phrase">
+      <span id="p1">_____</span>
+      <span id="p2">_____</span>
+      <span id="p3">_____</span>
+      <span id="p4">_____</span>
+      <span id="p5">_____</span>
+      <span id="p6">_____</span>
+      <span id="p7">_____</span>
+    </div>
 
-<p class="phrase">
-  <span id="p1">____</span>
-  <span id="p2">________</span>
-  <span id="p3">__</span>
-  <span id="p4">______</span>
-  <span id="p5">__</span>
-  <span id="p6">________</span>
-  <span id="p7">________</span>
-  <span id="p8">________</span>?
-  
-</p>
+    <div id="s1" class="step active">
+      <button onclick="reveal(1)">Continuar</button>
+    </div>
 
-<!-- 1 -->
-<div class="step active" id="s1">
-  <p>3 8 1 8 5 8 2</p>
-  <p>¿Cuántas veces aparece el número que más se repite?</p>
-  <button onclick="wrong()">2</button>
-  <button onclick="reveal(1)">3</button>
-  <button onclick="wrong()">1</button>
-  <button onclick="wrong()">4</button>
-</div>
+    <div id="s2" class="step">
+      <button onclick="reveal(2)">Continuar</button>
+    </div>
 
-<!-- 2 -->
-<div class="step" id="s2">
-  <p>¿Qué neurotransmisor está más relacionado con el sistema de recompensa?</p>
-  <button onclick="wrong()">Serotonina</button>
-  <button onclick="wrong()">GABA</button>
-  <button onclick="wrong()">Glutamato</button>
-  <button onclick="reveal(2)">Dopamina</button>
-</div>
+    <div id="s3" class="step">
+      <button onclick="reveal(3)">Continuar</button>
+    </div>
 
-<!-- 3 -->
-<div class="step" id="s3">
-  <p>2 4 8 16 ?</p>
-  <p>¿Qué número sigue?</p>
-  <button onclick="wrong()">24</button>
-  <button onclick="wrong()">18</button>
-  <button onclick="reveal(3)">32</button>
-  <button onclick="wrong()">30</button>
-</div>
+    <div id="s4" class="step">
+      <button onclick="reveal(4)">Continuar</button>
+    </div>
 
-<!-- 4 -->
-<div class="step" id="s4">
-  <p>En la mayoría de estudios revisados sobre adicciones comportamentales y TEA, ¿qué relación general se observa entre tener rasgos del espectro autista y desarrollar una conducta adictiva?</p>
-  <button onclick="reveal(4)">Una correlación positiva mayoritaria, aunque no siempre estadísticamente significativa.</button>
-  <button onclick="wrong()">Ninguna relación ni patrón observable.</button>
-  <button onclick="wrong()">Una correlación negativa fuerte.</button>
-  <button onclick="wrong()">Una relación inversa y bien establecida.</button>
-</div>
+    <div id="s5" class="step">
+      <button onclick="reveal(5)">Continuar</button>
+    </div>
 
-<!-- 5 -->
-<div class="step" id="s5">
-  <p>1 1 2 3 5 ?</p>
-  <p>¿Qué número continúa?</p>
-  <button onclick="wrong()">6</button>
-  <button onclick="reveal(5)">8</button>
-  <button onclick="wrong()">7</button>
-  <button onclick="wrong()">9</button>
-</div>
+    <div id="s6" class="step">
+      <button onclick="reveal(6)">Continuar</button>
+    </div>
 
-<!-- 6 -->
-<div class="step" id="s6">
-  <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
-  <button onclick="wrong()">Hipocampo</button>
-  <button onclick="fillConmigo()">Corteza prefrontal</button>
-  <button onclick="wrong()">Amígdala</button>
-  <button onclick="wrong()">Cerebelo</button>
-</div>
+    <div id="s7" class="step">
+      <button onclick="reveal(7)">Continuar</button>
+    </div>
 
-<!-- 7 -->
-<div class="step" id="s7">
-  <p><strong>¿Pregunta pendeja?</strong></p>
-  <button onclick="place()">Eres una verga</button>
-  <button onclick="wrong()">Apple Bees</button>
-  <button onclick="wrong()">McDonalds</button>
-  <button onclick="wrong()">Muncher House</button>
-</div>
+    <div id="final" class="step">
+      <p>💭</p>
+    </div>
 
-  <!-- 8 -->
-<div class="step" id="s8">
-  <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
-  <button onclick="place()">Toks</button>
-  <button onclick="wrong()">Apple Bees</button>
-  <button onclick="wrong()">McDonalds</button>
-  <button onclick="wrong()">Muncher House</button>
-</div>
+    <div id="buttons" class="step">
+      <button class="yes" onclick="yes()">Sí</button>
+      <button class="no" onclick="no()">No</button>
+    </div>
 
-<div class="step" id="final">
-  <p>🙂</p>
-</div>
-
-<div class="step" id="buttons">
-  <button onclick="yes()">Sí 🙂</button>
-  <button onclick="no()">Prefiero dejarlo aquí 💛</button>
-</div>
-
-</div>
+  </div>
 
 <script>
-const words = ["Te", "gustaría", "ir", "a", "comer","conmigo"];
+const stepsText = [
+  ["Te"],
+  ["Te", "gustaría"],
+  ["Te", "gustaría", "ir"],
+  ["Te", "gustaría", "ir", "a"],
+  ["Te", "gustaría", "ir", "a", "comer", "conmigo"],
+  ["Te", "gustaría", "ir", "a", "comer", "conmigo", "al"],
+  ["Te", "gustaría", "ir", "a", "comer", "conmigo", "al", "Toks"]
+];
 
 function reveal(n) {
-  document.getElementById("p"+n).innerText = words[n-1];
-  document.getElementById("p"+n).style.color = "#000";
+  updatePhrase(stepsText[n - 1]);
   next(n);
 }
 
-function fillConmigo() {
-  document.getElementById("p6").innerText = "al ______";
-  document.getElementById("p6").style.color = "#000";
-  document.getElementById("p7").style.color = "#000";
-  next(6);
-}
-
-function place() {
-  document.getElementById("p6").innerText = "al Toks";
-  next(7);
-}
-
-function wrong() {
-  alert("Intenta otra vez 🙂");
+function updatePhrase(words) {
+  const ids = ["p1","p2","p3","p4","p5","p6","p7"];
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (words[i]) {
+      el.innerText = words[i];
+      el.style.color = "#000";
+    }
+  });
 }
 
 function next(n) {
   document.getElementById("s"+n).classList.remove("active");
-  if (n < 8) {
+  if (n < 7) {
     document.getElementById("s"+(n+1)).classList.add("active");
   } else {
     document.getElementById("final").classList.add("active");
@@ -185,26 +154,17 @@ function next(n) {
 }
 
 function yes() {
-  const phoneNumber = "5218119179029"; // Pon tu número con código país aquí, sin espacios
+  const phoneNumber = "5218119179029";
   const message = encodeURIComponent("Sí quiero");
   window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
 }
 
 function no() {
-  const phoneNumber = "5218119179029"; // Pon tu número con código país aquí, sin espacios
+  const phoneNumber = "5218119179029";
   const message = encodeURIComponent("Por el momento no");
   window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
-  // window.close();  // Opcional, pero cerrar ventana puede que no funcione en todos los navegadores
 }
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
