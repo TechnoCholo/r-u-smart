@@ -1,230 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Un pequeño juego</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Minijuegos - Mario Party Style</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+    #container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .option {
+      padding: 10px;
+      margin: 8px 0;
+      background: #e3e3ff;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #mano {
+      font-size: 40px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #6c63ff;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+      body.bg {
+      background-image: url('FONDO.jpg'); /* reemplaza por tu imagen */
+      background-size: cover;
+      background-position: center;
+    }
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+    .highlight {
+      background: #ffd27f !important;
+      transform: scale(1.05);
+    }
 
-.container {
-  background: white;
-  padding: 30px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.step { display: none; }
-.step.active { display: block; }
-
-button {
-  display: block;
-  width: 100%;
-  margin-top: 8px;
-  padding: 8px;
-  cursor: pointer;
-  font-size: 15px;
-}
-
-.phrase {
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-.phrase span {
-  color: #000;
-}
 </style>
 </head>
-
 <body>
-<div class="container">
+  <div id="container">
+    <h1>Random Minijuegos</h1>
 
-<h2>Mini juego</h2>
+    <!-- LISTA PRINCIPAL DE MINIJUEGOS -->
+    <script>
+      const juegos = [
+        "Bumper Balls",
+        "Hexagon Heat",
+        "Shy Guy Says",
+        "Hot Rope Jump",
+        "Platform Peril",
+        "Crazy Cutters",
+        "Tipsy Tourney",
+        "Slot Car Derby",
+        "Bombs Away",
+        "Handcar Havoc"
+      ];
+    </script>
 
-<p class="phrase">
-  <span id="p1">__</span>
-  <span id="p2">_______</span>
-  <span id="p3">__</span>
-  <span id="p4">_</span>
-  <span id="p5">_____</span>
-  <span id="p6">__</span>
-  <span id="p7">______</span>
-  <span id="p8">________</span>?
-</p>
+    <div id="fase1">
+      <h2>Seleccionando 4 al azar...</h2>
+      <button onclick="seleccionar4()">Elegir 4 Random</button>
+      <div id="opciones4"></div>
+    </div>
 
-<!-- 1 -->
-<div class="step active" id="s1">
-  <p>3 8 1 8 5 8 2</p>
-  <p>¿Cuántas veces aparece el número que más se repite?</p>
-  <button onclick="wrong()">2</button>
-  <button onclick="revealTe()">3</button>
-  <button onclick="wrong()">1</button>
-  <button onclick="wrong()">4</button>
-</div>
+    <div id="fase2" style="display:none;">
+      <h2>La mano elige...</h2>
+      <div id="mano">MANO</div>
+      <div id="resultado"></div>
+      <button onclick="elegirFinal()">Elegir entre los 4</button>
+    </div>
+  </div>
 
-<!-- 2 -->
-<div class="step" id="s2">
-  <p>¿Qué neurotransmisor está más relacionado con el sistema de recompensa?</p>
-  <button onclick="wrong()">Serotonina</button>
-  <button onclick="wrong()">GABA</button>
-  <button onclick="wrong()">Glutamato</button>
-  <button onclick="revealGustaria()">Dopamina</button>
-</div>
+  <script>
+    let elegidos = [];
+let intervaloMano;
+let sonido = new Audio('sonido.mp3'); // tú agregas este archivo
 
-<!-- 3 -->
-<div class="step" id="s3">
-  <p>2 4 8 16 ?</p>
-  <p>¿Qué número sigue?</p>
-  <button onclick="wrong()">24</button>
-  <button onclick="wrong()">18</button>
-  <button onclick="revealIr()">32</button>
-  <button onclick="wrong()">30</button>
-</div>
+    function seleccionar4() {
+      elegidos = [...juegos]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4);
 
-<!-- 4 -->
-<div class="step" id="s4">
-  <p>En la mayoría de estudios revisados sobre adicciones comportamentales y TEA, ¿qué relación general se observa entre tener rasgos del espectro autista y desarrollar una conducta adictiva?</p>
-  <button onclick="revealA()">Una correlación positiva mayoritaria aunque no siempre estadísticamente significativa.</button>
-  <button onclick="wrong()">Ninguna relación.</button>
-  <button onclick="wrong()">Correlación negativa.</button>
-  <button onclick="wrong()">Relación inversa.</button>
-</div>
+      const cont = document.getElementById("opciones4");
+      cont.innerHTML = "";
+      elegidos.forEach(j => {
+        cont.innerHTML += `<div class='option'>${j}</div>`;
+      });
 
-<!-- 5 -->
-<div class="step" id="s5">
-  <p>1 1 2 3 5 ?</p>
-  <button onclick="wrong()">6</button>
-  <button onclick="revealComer()">8</button>
-  <button onclick="wrong()">7</button>
-  <button onclick="wrong()">9</button>
-</div>
+      document.getElementById("fase2").style.display = "block";
+      document.getElementById("resultado").innerHTML = "";
+    }</div>`;
+      });
 
-<!-- 6 -->
-<div class="step" id="s6">
-  <p>¿Qué estructura cerebral participa en la toma de decisiones?</p>
-  <button onclick="wrong()">Hipocampo</button>
-  <button onclick="revealConmigo()">Corteza prefrontal</button>
-  <button onclick="wrong()">Amígdala</button>
-  <button onclick="wrong()">Cerebelo</button>
-</div>
+      document.getElementById("fase2").style.display = "block";
+      document.getElementById("resultado").innerHTML = "";
+    }
 
-<!-- 7 (placeholder) -->
-<div class="step" id="s7">
-  <p><strong>Tres personas —Ana, Bruno y Carlos— siempre dicen la verdad o siempre mienten.
+    function function iniciarOscilacion() {
+      const cont = document.getElementById('opciones4');
+      const divs = cont.querySelectorAll('.option');
+      if (divs.length === 0) return;
 
-Ana dice:
-“Bruno miente.”
+      let index = 0;
+      clearInterval(intervaloMano);
 
-Bruno dice:
-“Carlos miente.”
+      intervaloMano = setInterval(() => {
+        divs.forEach(d => d.classList.remove('highlight'));
+        divs[index].classList.add('highlight');
+        try { sonido.play(); } catch(e){}
+        index = (index + 1) % divs.length;
+      }, 200);
+    }() {
+      let index = 0;
+      const cont = document.getElementById('opciones4');
+      const divs = cont.querySelectorAll('.option');
 
-Carlos dice:
-“Ana y Bruno dicen lo mismo.”
+      clearInterval(intervaloMano);
+      intervaloMano = setInterval(() => {
+        divs.forEach(d => d.classList.remove('highlight'));
+        divs[index].classList.add('highlight');
+        sonido.play();
+        index = (index + 1) % divs.length;
+      }, 300);
+    }
 
-¿Quién dice la verdad?</strong></p>
-  <button onclick="wrong()">Nadie</button>
-  <button onclick="wrong()">Bruno</button>
-  <button onclick="wrong()">Ana</button>
-  <button onclick="revealAl()">Carlos</button>
-</div>
-
-<!-- 8 FINAL -->
-<div class="step" id="s8">
-  <p><strong>¿A dónde te gustaría que te invite a comer?</strong></p>
-  <button onclick="revealToks()">Toks</button>
-  <button onclick="wrong()">Apple Bees</button>
-  <button onclick="wrong()">McDonalds</button>
-  <button onclick="wrong()">Muncher House</button>
-</div>
-
-<div class="step" id="final">
-  <p>🙂</p>
-</div>
-
-<div class="step" id="buttons">
-  <button onclick="yes()">Sí 🙂</button>
-  <button onclick="no()">Prefiero dejarlo aquí 💛</button>
-</div>
-
-</div>
-
-<script>
-function revealTe() {
-  document.getElementById("p1").innerText = "Te";
-  next(1);
-}
-
-function revealGustaria() {
-  document.getElementById("p2").innerText = "gustaría";
-  next(2);
-}
-
-function revealIr() {
-  document.getElementById("p3").innerText = "ir";
-  next(3);
-}
-
-function revealA() {
-  document.getElementById("p4").innerText = "a";
-  next(4);
-}
-
-function revealComer() {
-  document.getElementById("p5").innerText = "comer";
-  next(5);
-}
-
-function revealConmigo() {
-  document.getElementById("p6").innerText = "conmigo";
-  next(6);
-}
-
-function revealAl() {
-  document.getElementById("p7").innerText = "al";
-  next(7);
-}
-
-function revealToks() {
-  document.getElementById("p8").innerText = "Toks";
-  next(8);
-}
-
-function wrong() {
-  alert("Intenta otra vez 🙂");
-}
-
-function next(n) {
-  document.getElementById("s"+n).classList.remove("active");
-  if (n < 8) {
-    document.getElementById("s"+(n+1)).classList.add("active");
-  } else {
-    document.getElementById("final").classList.add("active");
-    document.getElementById("buttons").classList.add("active");
-  }
-}
-
-function yes() {
-  window.open("https://wa.me/5218119179029?text=Sí%20quiero", "_blank");
-}
-
-function no() {
-  window.open("https://wa.me/5218119179029?text=Por%20el%20momento%20no", "_blank");
-}
-</script>
-
+    function elegirFinal() {
+      iniciarOscilacion();
+      setTimeout(() => {
+        clearInterval(intervaloMano);
+        const ganador = elegidos[Math.floor(Math.random() * elegidos.length)];
+        document.getElementById('resultado').innerHTML =
+          `<h2>El minijuego elegido es:</h2><div class='option highlight'>${ganador}</div>`;
+      }, 2500);(() => {
+        clearInterval(intervaloMano);
+        const ganador = elegidos[Math.floor(Math.random() * elegidos.length)];
+        document.getElementById('resultado').innerHTML =
+          `<h2>El minijuego elegido es:</h2><div class='option'>${ganador}</div>`;
+      }, 3000); // 3 segundos de oscilación
+    }() {
+      const ganador = elegidos[Math.floor(Math.random() * elegidos.length)];
+      document.getElementById("resultado").innerHTML =
+        `<h2>El minijuego elegido es:</h2><div class='option'>${ganador}</div>`;
+    }
+  </script>
 </body>
 </html>
-
-
-
-
