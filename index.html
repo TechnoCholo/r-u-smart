@@ -6,6 +6,17 @@
   <title>Mario Party 2 - Selector de Minijuego</title>
 
   <style>
+    @keyframes bounceSelect {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.final-anim {
+  animation: bounceSelect 0.35s ease-in-out 3;
+  z-index: 10;
+}
+
     body {
       margin: 0;
       padding: 0;
@@ -99,6 +110,7 @@
     ];
 
     const efecto = new Audio('sonido.mp3');
+    const efectoFinal = new Audio('final.mp3');
 
     let elegidos = [];
     let index = 0;
@@ -135,13 +147,27 @@
         index = (index + 1) % elegidos.length;
       }, 260);
 
-      setTimeout(() => {
-        clearInterval(interval);
-        const final = Math.floor(Math.random() * elegidos.length);
-        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-        document.getElementById('op' + final).classList.add('selected');
-      }, 3500);
-    }
+     setTimeout(() => {
+    clearInterval(interval);
+
+    const final = Math.floor(Math.random() * elegidos.length);
+
+    document.querySelectorAll('.option').forEach(o => {
+      o.classList.remove('selected');
+      o.classList.remove('final-anim');
+    });
+
+    const ganador = document.getElementById('op' + final);
+    ganador.classList.add('selected');
+    ganador.classList.add('final-anim');
+
+    try {
+      efectoFinal.currentTime = 0;
+      efectoFinal.play();
+    } catch(e){}
+  }, 3500);
+}
   </script>
 </body>
 </html>
+
