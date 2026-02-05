@@ -55,14 +55,8 @@
       top: 0;
       font-size: 40px;
       font-weight: bold;
-      display: none;
-      width: 60px; /* tamaño ajustable */
-      height: auto;
     }
 
-    .option.selected .mano {
-  display: block; /* mostrar solo la opción verde */
-}
     button {
       width: 100%;
       margin-top: 20px;
@@ -99,6 +93,8 @@
       "Tipsy Tourney"
     ];
 
+    const efecto = new Audio('sonido.mp3');
+
     let elegidos = [];
     let index = 0;
     let interval;
@@ -127,7 +123,10 @@
       interval = setInterval(() => {
         document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
         document.getElementById('op' + index).classList.add('selected');
-        try { new Audio('sonido.mp3').play(); } catch(e){}
+        try {
+        efecto.currentTime = 0;
+        efecto.play();
+        } catch(e){}
         index = (index + 1) % elegidos.length;
       }, 260);
 
@@ -138,39 +137,6 @@
         document.getElementById('op' + final).classList.add('selected');
       }, 3500);
     }
-const botones = document.querySelectorAll(".game-btn");
-const manita = document.getElementById("manita");
-
-botones.forEach(btn => {
-    btn.addEventListener("click", () => {
-
-        // Quitar active de todos
-        botones.forEach(b => b.classList.remove("active"));
-
-        // Poner active al seleccionado
-        btn.classList.add("active");
-
-        // Posicionar la manita junto al botón activo
-        const rect = btn.getBoundingClientRect();
-        manita.style.left = rect.right + 10 + "px";
-        manita.style.top = (rect.top + rect.height / 2) + "px";
-
-        // Mostrar la mano si hay un botón activo
-        manita.style.display = "block";
-
-        // (Esto evita que aparezca si no hubiera activo, por seguridad)
-        const activo = document.querySelector(".game-btn.active");
-        if (!activo) {
-            manita.style.display = "none";
-        }
-    });
-});
-
-      
   </script>
 </body>
-
-    
 </html>
-
-
