@@ -1,90 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Menú con Manita</title>
-    <style>
-        body {
-            margin: 0;
-            background-image: url('fondo.png');
-            background-size: cover;
-            background-position: center;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mario Party 2 - Selector de Minijuego</title>
 
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 120px;
-            margin-left: 100px;
-            position: relative;
-        }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('fondo.png'); /* Tú le pones tu fondo estilo Mario Party */
+      background-size: cover;
+      background-position: center;
+    }
 
-        .game-btn {
-            width: 260px;
-            padding: 15px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 3px solid black;
-            border-radius: 15px;
-            background-color: #ffffffaa;
-        }
+    #panel {
+      width: 420px;
+      margin: 60px auto;
+      background: rgba(160, 120, 255, 0.55);
+      border: 4px solid #d8baff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
 
-        .game-btn.active {
-            background-color: #3cc93f; /* Verde */
-            color: white;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: yellow;
+      text-shadow: 3px 3px 0px black;
+    }
 
-        /* MANITA */
-        .manita {
-            width: 70px;     /* tamaño ajustable */
-            height: auto;
-            position: absolute;
-            pointer-events: none;
-            display: none;   /* Oculta por defecto */
-            transform: translateY(-50%);
-        }
-    </style>
+    .option {
+      background: rgba(255,255,255,0.5);
+      margin: 10px;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 22px;
+      border: 2px solid #ffffff;
+      text-align: center;
+      position: relative;
+    }
+
+    .selected {
+      background: rgb(80,255,80);
+      border-color: #00ff00;
+    }
+
+    .mano {
+      position: absolute;
+      left: -60px;
+      top: 0;
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 20px;
+      background: #ffcc00;
+      border: 3px solid #b88a00;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="menu-container">
-        <button class="game-btn" id="juego1">Juego 1</button>
-        <button class="game-btn" id="juego2">Juego 2</button>
-        <button class="game-btn" id="juego3">Juego 3</button>
-    </div>
+  <div id="panel">
+    <h1>4-PLAYER GAME</h1>
 
-    <!-- Imagen de la mano -->
-    <img src="manita.png" class="manita" id="manita">
+    <div id="lista"></div>
 
-    <script>
-        const botones = document.querySelectorAll(".game-btn");
-        const manita = document.getElementById("manita");
+    <button onclick="empezar()">Elegir Minijuego</button>
+  </div>
 
-        botones.forEach(btn => {
-            btn.addEventListener("click", () => {
+  <script>
+    const juegos = [
+      "Roll Call",
+      "Shy Guy Says",
+      "Hexagon Heat",
+      "Dizzy Dancing",
+      "Totem Pole Pound",
+      "Handcar Havoc",
+      "Tile Driver",
+      "Look Away",
+      "Bumper Balls",
+      "Tipsy Tourney"
+    ];
 
-                // Quitar active de todos
-                botones.forEach(b => b.classList.remove("active"));
+    let elegidos = [];
+    let index = 0;
+    let interval;
 
-                // Poner active al seleccionado
-                btn.classList.add("active");
+    function renderLista() {
+      const div = document.getElementById("lista");
+      div.innerHTML = "";
 
-                // Obtener posición del botón
-                const rect = btn.getBoundingClientRect();
+      elegidos.forEach((j, i) => {
+        div.innerHTML += `
+          <div class='option' id='op${i}'>
+            <img src='manita.png' class='mano' id='mano${i}'></span>
+            ${j}
+          </div>`;
+      });
+    }
 
-                // Reposicionar la manita
-                manita.style.left = rect.right + 10 + "px";
-                manita.style.top = (rect.top + rect.height / 2) + "px";
+    function empezar() {
+      // Seleccionar 5 random estilo Mario Party 2
+      elegidos = [...juegos].sort(() => Math.random() - 0.5).slice(0, 4);
+      renderLista();
 
-                // Mostrar la manita
-                manita.style.display = "block";
-            });
-        });
-    </script>
+      clearInterval(interval);
+      index = 0;
 
+      interval = setInterval(() => {
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.getElementById('op' + index).classList.add('selected');
+        try { new Audio('sonido.mp3').play(); } catch(e){}
+        index = (index + 1) % elegidos.length;
+      }, 260);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        const final = Math.floor(Math.random() * elegidos.length);
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        document.getElementById('op' + final).classList.add('selected');
+      }, 3500);
+    }
+const botones = document.querySelectorAll(".game-btn");
+const manita = document.getElementById("manita");
+
+botones.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        // Quitar active de todos
+        botones.forEach(b => b.classList.remove("active"));
+
+        // Poner active al seleccionado
+        btn.classList.add("active");
+
+        // Posicionar la manita junto al botón activo
+        const rect = btn.getBoundingClientRect();
+        manita.style.left = rect.right + 10 + "px";
+        manita.style.top = (rect.top + rect.height / 2) + "px";
+
+        // Mostrar la mano si hay un botón activo
+        manita.style.display = "block";
+
+        // (Esto evita que aparezca si no hubiera activo, por seguridad)
+        const activo = document.querySelector(".game-btn.active");
+        if (!activo) {
+            manita.style.display = "none";
+        }
+    });
+});
+
+      
+  </script>
 </body>
+
+    
 </html>
